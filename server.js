@@ -34,7 +34,7 @@ cloudinary.config({
 });
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI, { family: 4 })
   .then(() => {
     console.log('Successfully connected to MongoDB Atlas.');
     seedDatabaseIfNeeded();
