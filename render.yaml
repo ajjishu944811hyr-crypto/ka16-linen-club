@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: ka16-linen-club
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+        description: "Your cloud MongoDB Atlas cluster connection string: mongodb+srv://ajayrajhiriyur:6wfl7icjpTGIMtkk@cluster0.pbgli.mongodb.net/ka16_linen_club"
+      - key: JWT_SECRET
+        generateValue: true
+        description: "Secure cryptographic session signature key (automatically generated on build)"
+      - key: ADMIN_PASSWORD
+        sync: false
+        description: "Secure login credential for the CMS Dashboard (e.g. ka16_secure_admin_2026)"
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+        description: "Your Cloudinary CDN storage account name"
+      - key: CLOUDINARY_API_KEY
+        sync: false
+        description: "Your Cloudinary API key credential"
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+        description: "Your Cloudinary API secret key (keep secure)"

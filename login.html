@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Administrative Sign In | KA-16 LINEN CLUB</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css?v=2.0">
+
+    <style>
+        body {
+            background-color: #0b0b0b;
+            background-image: radial-gradient(circle at center, #1a1512 0%, #060606 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Ambient floating light rings */
+        .ambient-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(200, 169, 107, 0.08) 0%, rgba(0,0,0,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(200, 169, 107, 0.3);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            z-index: 2;
+            position: relative;
+            transform: translateY(0);
+            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .login-logo {
+            font-family: var(--font-heading);
+            color: #fff;
+            font-size: 2.2rem;
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        .login-sub {
+            font-family: var(--font-body);
+            color: var(--accent);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 4px;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .login-title {
+            color: #fff;
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            margin-top: 25px;
+            margin-bottom: 0;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+            position: relative;
+        }
+
+        .form-label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 16px;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            color: #fff;
+            font-size: 0.95rem;
+            font-family: var(--font-body);
+            outline: none;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+
+        .login-input:focus {
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.04);
+            box-shadow: 0 0 15px rgba(200, 169, 107, 0.15);
+        }
+
+        .login-input:focus + i {
+            color: var(--accent);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #c8a96b 0%, #a2834b 100%);
+            border: none;
+            border-radius: 6px;
+            color: #000;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(200, 169, 107, 0.3);
+            background: linear-gradient(135deg, #d4b77e 0%, #b2925a 100%);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .error-box {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 24px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.25);
+            letter-spacing: 0.5px;
+        }
+
+        .footer-note a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-note a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-glow"></div>
+
+    <div class="login-container">
+        <div class="login-header">
+            <h1 class="login-logo">KA-16</h1>
+            <span class="login-sub">Linen Club</span>
+            <h3 class="login-title">Visual CMS Sign In</h3>
+        </div>
+
+        <div id="error-message" class="error-box">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span id="error-text">Incorrect credentials. Try again.</span>
+        </div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label class="form-label" for="admin-pass">Access Code / Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="admin-pass" class="login-input" placeholder="••••••••••••" required autocomplete="current-password">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-login">
+                <span>Secure Sign In</span>
+                <i class="fa-solid fa-shield-halved"></i>
+            </button>
+        </form>
+
+        <div class="footer-note">
+            <span>Boutique couture showroom administration portal.</span><br>
+            <a href="index.html" style="margin-top:10px; display:inline-block;"><i class="fa-solid fa-arrow-left" style="font-size:0.7rem; margin-right:4px;"></i> Return to Public Storefront</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const password = document.getElementById('admin-pass').value;
+            const errorBox = document.getElementById('error-message');
+            const errorText = document.getElementById('error-text');
+            const btn = e.target.querySelector('.btn-login');
+
+            // Set loading state
+            btn.disabled = true;
+            btn.innerHTML = '<span>Verifying...</span> <i class="fa-solid fa-spinner fa-spin"></i>';
+            errorBox.style.display = 'none';
+
+            try {
+                const response = await fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    // Redirect immediately to admin dashboard on success
+                    window.location.href = 'admin.html';
+                } else {
+                    errorText.textContent = data.error || 'Authentication failed. Please try again.';
+                    errorBox.style.display = 'flex';
+                    btn.disabled = false;
+                    btn.innerHTML = '<span>Secure Sign In</span> <i class="fa-solid fa-shield-halved"></i>';
+                }
+            } catch (err) {
+                errorText.textContent = 'Server connection error. Please try again later.';
+                errorBox.style.display = 'flex';
+                btn.disabled = false;
+                btn.innerHTML = '<span>Secure Sign In</span> <i class="fa-solid fa-shield-halved"></i>';
+            }
+        });
+    </script>
+</body>
+</html>

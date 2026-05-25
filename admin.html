@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual CMS Admin Panel | KA-16 LINEN CLUB</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css?v=2.0">
+</head>
+
+<body style="background-color: var(--primary); display: none;">
+
+    <!-- Shared Header -->
+    <header class="main-header scrolled">
+        <a href="index.html" class="logo-container">
+            <h1 class="logo-title">KA-16</h1>
+            <span class="logo-sub">Linen Club</span>
+        </a>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">View Site</a></li>
+                <li><a href="new-arrivals.html">New Arrivals</a></li>
+                <li><a href="offers.html">Offers</a></li>
+                <li><a href="location.html">Store Location</a></li>
+            </ul>
+        </nav>
+        <div class="header-cta">
+            <button class="btn-secondary" id="reset-cms-btn" style="margin-right:10px; border-radius:18px;"><i
+                    class="fa-solid fa-rotate-left"></i> Reset Defaults</button>
+            <button class="btn-primary" id="signout-btn" style="margin-right:10px; border-radius:18px; background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.2); cursor: pointer;"><i
+                    class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+            <a href="tel:+918123555826" class="btn-primary" style="border-radius:18px;"><i
+                    class="fa-solid fa-phone"></i> Call Support</a>
+        </div>
+    </header>
+
+    <!-- Central Control Center Container -->
+    <main class="admin-container">
+
+        <div class="admin-header-flex">
+            <div class="admin-title-wrap">
+                <h2>Visual <span>CMS Dashboard</span></h2>
+                <p>Welcome back, Shop Owner. Manage collections, active offers, inventory prices, and the visual 3D
+                    runway carousel instantly.</p>
+            </div>
+            <div>
+                <a href="index.html#gallery" class="btn-primary" style="padding:12px 24px; border-radius:18px;"><i
+                        class="fa-solid fa-eye"></i> Launch 3D Experience</a>
+            </div>
+        </div>
+
+        <!-- tab Selector navigation -->
+        <div class="admin-tabs">
+            <button class="admin-tab-btn active" data-tab="tab-arrivals"><i class="fa-solid fa-star"></i> New
+                Arrivals</button>
+            <button class="admin-tab-btn" data-tab="tab-offers"><i class="fa-solid fa-tags"></i> Coupons &
+                Bundles</button>
+            <button class="admin-tab-btn" data-tab="tab-products"><i class="fa-solid fa-shirt"></i> Product
+                Catalog</button>
+            <button class="admin-tab-btn" data-tab="tab-gallery"><i class="fa-solid fa-images"></i> 3D Runway
+                Slides</button>
+        </div>
+
+        <!-- TAB 1: NEW ARRIVALS -->
+        <section id="tab-arrivals" class="admin-tab-content active">
+            <div class="admin-card-form">
+                <h3><span><i class="fa-solid fa-plus-circle" style="color:var(--accent);"></i> Add New Arrival
+                        silouette</span></h3>
+
+                <form id="form-new-arrival">
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" class="form-control" id="arr-name" placeholder="e.g. Royal Indigo Blazer"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label>Fabric Detail</label>
+                            <input type="text" class="form-control" id="arr-fabric"
+                                placeholder="e.g. Hand-spun Organic Flax Linen" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label>Description</label>
+                        <textarea class="form-control" id="arr-desc"
+                            placeholder="Details about stitching density, vents, pockets, buttons..."
+                            required></textarea>
+                    </div>
+
+                    <!-- Dynamic Variations Section -->
+                    <div
+                        style="margin-top: 25px; border-top: 1px solid var(--border-light); padding-top: 20px; margin-bottom: 25px;">
+                        <h4
+                            style="color: var(--accent); margin-bottom: 5px; font-family: var(--font-heading); font-size: 1.25rem; display: flex; align-items: center; gap: 8px;">
+                            <i class="fa-solid fa-palette"></i> Color Variations & Sizing
+                        </h4>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">
+                            Add color versions for this product. Each variant has its own image, stock count, pricing,
+                            and specific waist or chest size lists.
+                        </p>
+
+                        <div id="arr-variants-container">
+                            <!-- Variant rows injected dynamically -->
+                        </div>
+
+                        <button type="button" class="btn-secondary" id="add-arr-variant-btn"
+                            style="border-radius: 18px; padding: 10px 20px; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; margin-top: 10px;">
+                            <i class="fa-solid fa-plus-circle"></i> Add Color Variant
+                        </button>
+                    </div>
+
+                    <div class="form-grid-2" style="align-items: center; margin-top: 20px;">
+                        <div class="form-group">
+                            <div class="switch-group" style="display: flex; align-items: center;">
+                                <label class="switch">
+                                    <input type="checkbox" id="arr-tag-new" checked>
+                                    <span class="slider"></span>
+                                </label>
+                                <span
+                                    style="font-size:0.9rem; font-weight:600; color:var(--bg-light); margin-left: 10px;">Attach
+                                    "NEW" tag badge</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn-primary"
+                                style="padding:15px; width:100%; border-radius:18px; font-weight:600; font-size:0.95rem;">
+                                <i class="fa-solid fa-paper-plane"></i> Publish Instantly
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div style="margin-bottom:25px;">
+                <h3 style="font-family:var(--font-heading); color:var(--bg-light); font-size:1.4rem;">Currently Live New
+                    Arrivals</h3>
+            </div>
+
+            <div class="admin-items-grid" id="list-arrivals">
+                <!-- Dynamically filled by javascript -->
+            </div>
+        </section>
+
+        <!-- TAB 2: OFFERS & COUPONS -->
+        <section id="tab-offers" class="admin-tab-content">
+            <!-- Vouchers management -->
+            <div class="admin-card-form">
+                <h3><span><i class="fa-solid fa-tag" style="color:var(--accent);"></i> Manage Vouchers</span></h3>
+
+                <form id="form-voucher">
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Voucher Coupon Code</label>
+                            <input type="text" class="form-control" id="vouch-code" placeholder="e.g. FESTIVE25"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label>Voucher Title</label>
+                            <input type="text" class="form-control" id="vouch-title"
+                                placeholder="e.g. Wedding Trousseau Package" required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Discount Value</label>
+                            <input type="number" class="form-control" id="vouch-value" placeholder="e.g. 15" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Value Type</label>
+                            <select class="form-control" id="vouch-type">
+                                <option value="percent">Percentage Discount (%)</option>
+                                <option value="flat">Flat Cash Reward (₹)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Voucher Description</label>
+                        <textarea class="form-control" id="vouch-desc"
+                            placeholder="Details about coupon applicability, exclusions..." required></textarea>
+                    </div>
+
+                    <div style="text-align:right;">
+                        <button type="submit" class="btn-primary" style="padding:12px 30px; border-radius:18px;">
+                            <i class="fa-solid fa-plus-circle"></i> Save Voucher Coupon
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div style="margin-bottom:25px;">
+                <h3 style="font-family:var(--font-heading); color:var(--bg-light); font-size:1.4rem;">Vouchers list</h3>
+            </div>
+
+            <div class="admin-items-grid" id="list-vouchers" style="margin-bottom:50px;">
+                <!-- Filled dynamically -->
+            </div>
+
+            <!-- Seasonal packages -->
+            <div class="admin-card-form">
+                <h3><span><i class="fa-solid fa-gift" style="color:var(--accent);"></i> Manage Seasonal Gift
+                        Bundles</span></h3>
+
+                <form id="form-bundle">
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Bundle Name</label>
+                            <input type="text" class="form-control" id="bund-name" placeholder="e.g. Royal Wedding Pack"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label>Price (₹)</label>
+                            <input type="number" class="form-control" id="bund-price" placeholder="e.g. 12999" required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Badge text</label>
+                            <input type="text" class="form-control" id="bund-badge" placeholder="e.g. Wedding Trousseau"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label>Countdown Expiration Date (Optional)</label>
+                            <input type="datetime-local" class="form-control" id="bund-countdown">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Bundle Description</label>
+                        <textarea class="form-control" id="bund-desc"
+                            placeholder="Describe items included in the pack..." required></textarea>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Bundle Image</label>
+                            <div class="upload-dropzone" id="bund-dropzone">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <strong>Select bundle flatlay</strong>
+                                <span>Supports PNG or JPG</span>
+                                <input type="file" id="bund-file-input" style="display:none;" accept="image/*">
+                            </div>
+                            <div class="upload-preview" id="bund-preview-box">
+                                <img src="" id="bund-preview-img" alt="Uploaded Preview">
+                            </div>
+                            <input type="hidden" id="bund-img-base64">
+                        </div>
+                        <div class="form-group" style="display:flex; align-items:flex-end; justify-content:center;">
+                            <button type="submit" class="btn-primary"
+                                style="padding:15px; width:100%; border-radius:18px; font-weight:600;">
+                                <i class="fa-solid fa-save"></i> Publish Bundle Kit
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div style="margin-bottom:25px;">
+                <h3 style="font-family:var(--font-heading); color:var(--bg-light); font-size:1.4rem;">Live Seasonal Gift
+                    Bundles</h3>
+            </div>
+
+            <div class="admin-items-grid" id="list-bundles">
+                <!-- Filled dynamically -->
+            </div>
+        </section>
+
+        <!-- TAB 3: PRODUCT CATALOG -->
+        <section id="tab-products" class="admin-tab-content">
+            <div class="admin-card-form">
+                <h3><span><i class="fa-solid fa-plus-circle" style="color:var(--accent);"></i> Add Standard Catalog
+                        Product</span></h3>
+
+                <form id="form-product">
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Product Name</label>
+                            <input type="text" class="form-control" id="prod-name"
+                                placeholder="e.g. Classic White Linen Shirt" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Fabric / Category</label>
+                            <input type="text" class="form-control" id="prod-fabric"
+                                placeholder="e.g. Pure Linen Flax Blend" required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Price (₹)</label>
+                            <input type="number" class="form-control" id="prod-price" placeholder="e.g. 1999" required>
+                        </div>
+                        <div class="form-group" style="display:none;">
+                            <label>Current Stock Count</label>
+                            <input type="number" class="form-control" id="prod-stock" value="0">
+                        </div>
+                    </div>
+
+                    <div class="admin-size-stock-section">
+                        <h5><i class="fa-solid fa-shirt"></i> Upperwear Shirt Sizes Stock</h5>
+                        <div class="admin-stock-grid" id="prod-upper-grid">
+                            <!-- Populated dynamically -->
+                        </div>
+                        <h5 style="margin-top:15px;"><i class="fa-solid fa-ruler-horizontal"></i> Waist Trousers Sizes Stock</h5>
+                        <div class="admin-stock-grid" id="prod-waist-grid">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Product Description</label>
+                        <textarea class="form-control" id="prod-desc"
+                            placeholder="Details about cut, sleeves, style notes..." required></textarea>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Product Image</label>
+                            <div class="upload-dropzone" id="prod-dropzone">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <strong>Select product image</strong>
+                                <span>PNG or JPG</span>
+                                <input type="file" id="prod-file-input" style="display:none;" accept="image/*">
+                            </div>
+                            <div class="upload-preview" id="prod-preview-box">
+                                <img src="" id="prod-preview-img" alt="Uploaded Preview">
+                            </div>
+                            <input type="hidden" id="prod-img-base64">
+                        </div>
+                        <div class="form-group" style="display:flex; align-items:flex-end; justify-content:center;">
+                            <button type="submit" class="btn-primary"
+                                style="padding:15px; width:100%; border-radius:18px; font-weight:600;">
+                                <i class="fa-solid fa-plus-circle"></i> Save Catalog Clothes
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div style="margin-bottom:25px;">
+                <h3 style="font-family:var(--font-heading); color:var(--bg-light); font-size:1.4rem;">Catalog Clothes
+                    Listings</h3>
+            </div>
+
+            <div class="admin-items-grid" id="list-products">
+                <!-- Filled dynamically -->
+            </div>
+        </section>
+
+        <!-- TAB 4: 3D RUNWAY SLIDES -->
+        <section id="tab-gallery" class="admin-tab-content">
+            <div class="admin-card-form">
+                <h3><span><i class="fa-solid fa-panorama" style="color:var(--accent);"></i> Add Model Slide to 3D
+                        Runway</span></h3>
+
+                <form id="form-gallery">
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Slide Label Title</label>
+                            <input type="text" class="form-control" id="gal-label" placeholder="e.g. Resort Layering"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label>Backdrop Typography Overlay</label>
+                            <input type="text" class="form-control" id="gal-typo" placeholder="e.g. COUTURE FIT"
+                                required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Custom Ambient Spotlighting HSL Gradient</label>
+                            <select class="form-control" id="gal-bg">
+                                <option value="radial-gradient(circle at center, #27211e 0%, #0d0c0b 100%)">Luxurious
+                                    Bronze Charcoal</option>
+                                <option value="radial-gradient(circle at center, #1c2721 0%, #0c0d0c 100%)">Deep Emerald
+                                    Black</option>
+                                <option value="radial-gradient(circle at center, #27261e 0%, #0d0d0c 100%)">Gold
+                                    Accented Charcoal</option>
+                                <option value="radial-gradient(circle at center, #1e2227 0%, #0c0c0d 100%)">Slate Blue
+                                    Midnight</option>
+                                <option value="radial-gradient(circle at center, #251e27 0%, #0c0b0c 100%)">Amethyst
+                                    Plum Shadow</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Slide Description</label>
+                            <input type="text" class="form-control" id="gal-desc"
+                                placeholder="e.g. Breathable beige coordinates designed for premium luxury." required>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Model Silhouette Shot</label>
+                            <div class="upload-dropzone" id="gal-dropzone">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                                <strong>Select model campaign shot</strong>
+                                <span>Supports vertical PNG models</span>
+                                <input type="file" id="gal-file-input" style="display:none;" accept="image/*">
+                            </div>
+                            <div class="upload-preview" id="gal-preview-box">
+                                <img src="" id="gal-preview-img" alt="Uploaded Preview">
+                            </div>
+                            <input type="hidden" id="gal-img-base64">
+                        </div>
+                        <div class="form-group" style="display:flex; align-items:flex-end; justify-content:center;">
+                            <button type="submit" class="btn-primary"
+                                style="padding:15px; width:100%; border-radius:18px; font-weight:600;">
+                                <i class="fa-solid fa-images"></i> Publish to 3D Stage
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div style="margin-bottom:25px;">
+                <h3 style="font-family:var(--font-heading); color:var(--bg-light); font-size:1.4rem;">Dynamic 3D
+                    Carousel Slides (Arranged)</h3>
+                <p style="color:var(--text-muted); font-size:0.85rem; margin-top:5px;"><i
+                        class="fa-solid fa-circle-info"></i> Slides automatically cycle horizontally in the gallery
+                    section of the main landing page.</p>
+            </div>
+
+            <div class="admin-items-grid" id="list-gallery">
+                <!-- Filled dynamically -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="main-footer">
+        <div class="footer-bottom">
+            <p>&copy; 2026 KA-16 LINEN CLUB. CMS Dashboard Control Panel. Crafted for Absolute Prestige.</p>
+        </div>
+    </footer>
+
+    <!-- Toast notification alerts -->
+    <div class="toast-container" id="toast-wrapper"></div>
+
+    <script src="js/cms.js?v=2.0"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // 1. Verify session token from backend secure cookie
+            try {
+                const verifyRes = await fetch('/api/auth/verify');
+                if (!verifyRes.ok) {
+                    window.location.href = 'login.html';
+                    return;
+                }
+                
+                // Load cached inventory databases from MongoDB Atlas in parallel
+                if (window.KA16_CMS && window.KA16_CMS.loadFromCloud) {
+                    await window.KA16_CMS.loadFromCloud();
+                }
+
+                // Show page once authorized and data loaded successfully
+                document.body.style.display = 'block';
+            } catch (err) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Build standard product size input grids dynamically
+            const prodUpperGrid = document.getElementById('prod-upper-grid');
+            const prodWaistGrid = document.getElementById('prod-waist-grid');
+            if (prodUpperGrid && prodWaistGrid) {
+                const upperSizes = ["S", "M", "L", "XL", "XXL", "XXXL", "XXXXL", "XXXXXL"];
+                const waistSizes = ["28", "30", "32", "34", "36", "38", "40", "42"];
+
+                prodUpperGrid.innerHTML = upperSizes.map(sz => `
+                    <div class="admin-stock-card">
+                        <label>${sz}</label>
+                        <input type="number" class="prod-size-qty" data-size="${sz}" value="0" min="0" placeholder="0">
+                    </div>
+                `).join('');
+
+                prodWaistGrid.innerHTML = waistSizes.map(sz => `
+                    <div class="admin-stock-card">
+                        <label>${sz}</label>
+                        <input type="number" class="prod-waist-qty" data-size="${sz}" value="0" min="0" placeholder="0">
+                    </div>
+                `).join('');
+            }
+
+            // Tab switcher
+            const tabButtons = document.querySelectorAll('.admin-tab-btn');
+            const tabPanes = document.querySelectorAll('.admin-tab-content');
+
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const targetTab = btn.getAttribute('data-tab');
+
+                    tabButtons.forEach(b => b.classList.remove('active'));
+                    tabPanes.forEach(p => p.classList.remove('active'));
+
+                    btn.classList.add('active');
+                    document.getElementById(targetTab).classList.add('active');
+                });
+            });
+
+            // Size pills toggling selector
+            const sizePills = document.querySelectorAll('.size-pills .size-pill');
+            sizePills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    pill.classList.toggle('selected');
+                });
+            });
+
+            // Uploader dropzone Base64 conversion helpers
+            function registerDropzone(dropzoneId, inputId, previewBoxId, previewImgId, hiddenInputId) {
+                const zone = document.getElementById(dropzoneId);
+                const input = document.getElementById(inputId);
+                const previewBox = document.getElementById(previewBoxId);
+                const previewImg = document.getElementById(previewImgId);
+                const hiddenInput = document.getElementById(hiddenInputId);
+
+                if (!zone || !input) return;
+
+                zone.addEventListener('click', () => input.click());
+
+                input.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+
+                    const reader = new FileReader();
+                    reader.onload = function (event) {
+                        const base64Data = event.target.result;
+                        hiddenInput.value = base64Data;
+                        previewImg.src = base64Data;
+                        previewBox.style.display = 'block';
+                        showToast('<i class="fa-solid fa-circle-check"></i> Image parsed successfully.');
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+            registerDropzone('bund-dropzone', 'bund-file-input', 'bund-preview-box', 'bund-preview-img', 'bund-img-base64');
+            registerDropzone('prod-dropzone', 'prod-file-input', 'prod-preview-box', 'prod-preview-img', 'prod-img-base64');
+            registerDropzone('gal-dropzone', 'gal-file-input', 'gal-preview-box', 'gal-preview-img', 'gal-img-base64');
+
+            // Toast Alerts
+            function showToast(message) {
+                const container = document.getElementById('toast-wrapper');
+                const alert = document.createElement('div');
+                alert.className = 'toast-alert';
+                alert.innerHTML = message;
+                container.appendChild(alert);
+
+                setTimeout(() => {
+                    alert.style.animation = 'none';
+                    alert.offsetHeight; // Trigger reflow
+                    alert.style.animation = 'slideInUp 0.4s reverse forwards';
+                    setTimeout(() => alert.remove(), 400);
+                }, 3000);
+            }
+
+            // Reset CMS trigger
+            document.getElementById('reset-cms-btn').addEventListener('click', () => {
+                if (confirm('Are you sure you want to reset all dynamic dashboard updates back to premium defaults?')) {
+                    KA16_CMS.resetToDefaults();
+                    showToast('<i class="fa-solid fa-arrows-rotate"></i> Reset completed. Refreshing page...');
+                    setTimeout(() => location.reload(), 1000);
+                }
+            });
+
+            // Dynamic Color Variations Javascript Builders
+            let variantCount = 0;
+            const container = document.getElementById('arr-variants-container');
+
+            function addVariantRow(data = null) {
+                variantCount++;
+                const box = document.createElement('div');
+                box.className = 'variant-box';
+                box.id = `arr-variant-box-${variantCount}`;
+
+                const cName = data ? data.colorName : '';
+                const cHex = data ? data.colorHex : '#c8a96b';
+                const cPrice = data ? data.price : '';
+                const cImg = data ? data.img : '';
+                
+                const upperSizes = ["S", "M", "L", "XL", "XXL", "XXXL", "XXXXL", "XXXXXL"];
+                const waistSizes = ["28", "30", "32", "34", "36", "38", "40", "42"];
+
+                const upperHtml = upperSizes.map(sz => {
+                    const qty = (data && data.sizes && data.sizes[sz] !== undefined) ? data.sizes[sz] : 0;
+                    return `
+                        <div class="admin-stock-card">
+                            <label>${sz}</label>
+                            <input type="number" class="var-size-qty" data-size="${sz}" value="${qty}" min="0" placeholder="0">
+                        </div>
+                    `;
+                }).join('');
+
+                const waistHtml = waistSizes.map(sz => {
+                    const qty = (data && data.waistSizes && data.waistSizes[sz] !== undefined) ? data.waistSizes[sz] : 0;
+                    return `
+                        <div class="admin-stock-card">
+                            <label>${sz}</label>
+                            <input type="number" class="var-waist-qty" data-size="${sz}" value="${qty}" min="0" placeholder="0">
+                        </div>
+                    `;
+                }).join('');
+
+                box.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 8px;">
+                        <h5 style="color: var(--accent); font-size: 0.95rem; font-family: var(--font-heading);"><i class="fa-solid fa-palette"></i> Variant #${variantCount}</h5>
+                        ${variantCount > 1 ? `<button type="button" class="admin-btn-icon delete-var-btn" data-id="${variantCount}" style="background: rgba(239, 68, 68, 0.1); color: #ef4444; border: none; border-radius: 50%; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; cursor: pointer;"><i class="fa-solid fa-xmark"></i></button>` : ''}
+                    </div>
+                    
+                    <div class="form-grid-2">
+                        <div class="form-group">
+                            <label>Color Name</label>
+                            <input type="text" class="form-control var-color-name" value="${cName}" placeholder="e.g. Lavender" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Color Preview (Dot Hex)</label>
+                            <input type="color" class="form-control var-color-hex" value="${cHex}" style="height: 44px; padding: 4px;">
+                        </div>
+                    </div>
+                    
+                    <div class="form-grid-2" style="margin-top: 10px;">
+                        <div class="form-group">
+                            <label>Variant Price (₹) (Optional - falls back to default if empty)</label>
+                            <input type="number" class="form-control var-price" value="${cPrice}" placeholder="e.g. 3899">
+                        </div>
+                        <div class="form-group">
+                            <label>Variant Image</label>
+                            <div class="upload-dropzone var-dropzone" id="var-dropzone-${variantCount}" style="height: 75px; padding: 8px; font-size: 0.75rem;">
+                                <i class="fa-solid fa-cloud-arrow-up" style="font-size: 1rem; margin-bottom: 4px;"></i>
+                                <strong>Select variant photo</strong>
+                                <input type="file" class="var-file-input" style="display: none;" accept="image/*">
+                            </div>
+                            <div class="upload-preview var-preview-box" id="var-preview-box-${variantCount}" style="${cImg ? 'display: block;' : 'display: none;'} margin-top: 6px;">
+                                <img src="${cImg}" class="var-preview-img" style="max-height: 60px; border-radius: 4px;">
+                            </div>
+                            <input type="hidden" class="var-img-base64" value="${cImg}">
+                        </div>
+                    </div>
+                    
+                    <div class="admin-size-stock-section">
+                        <h5><i class="fa-solid fa-shirt"></i> Upperwear Shirt Sizes Stock</h5>
+                        <div class="admin-stock-grid">
+                            ${upperHtml}
+                        </div>
+                        <h5 style="margin-top:15px;"><i class="fa-solid fa-ruler-horizontal"></i> Waist Trousers Sizes Stock</h5>
+                        <div class="admin-stock-grid">
+                            ${waistHtml}
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(box);
+
+                // Dropzone clicks inside this box
+                const dropzone = box.querySelector(`.var-dropzone`);
+                const fileInput = box.querySelector(`.var-file-input`);
+                const previewBox = box.querySelector(`.var-preview-box`);
+                const previewImg = box.querySelector(`.var-preview-img`);
+                const base64Input = box.querySelector(`.var-img-base64`);
+
+                dropzone.addEventListener('click', () => fileInput.click());
+
+                fileInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                            base64Input.value = event.target.result;
+                            previewImg.src = event.target.result;
+                            previewBox.style.display = 'block';
+                            showToast('<i class="fa-solid fa-image"></i> Variant photo loaded successfully!');
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+
+                // Delete button logic
+                const deleteBtn = box.querySelector('.delete-var-btn');
+                if (deleteBtn) {
+                    deleteBtn.addEventListener('click', () => {
+                        box.remove();
+                        showToast('<i class="fa-solid fa-xmark"></i> Variant option removed.');
+                    });
+                }
+            }
+
+
+
+            // Bind add variant button
+            document.getElementById('add-arr-variant-btn').addEventListener('click', () => addVariantRow());
+
+            // Seed default first variant on DOM load
+            addVariantRow();
+
+            // 1. ARRIVALS CONTROLLERS
+            function renderArrivals() {
+                const arrivals = KA16_CMS.getNewArrivals();
+                const list = document.getElementById('list-arrivals');
+                list.innerHTML = '';
+
+                arrivals.forEach(item => {
+                    const primaryVar = item.variants && item.variants.length > 0 ? item.variants[0] : {
+                        img: "img/arrivals_banner_1779290841203.png",
+                        price: 0,
+                        sizes: {},
+                        waistSizes: {}
+                    };
+                    const displayPrice = primaryVar.price || 0;
+
+                    let totalStock = 0;
+                    const sizesList = [];
+                    if (item.variants) {
+                        item.variants.forEach(v => {
+                            if (v.sizes) {
+                                Object.entries(v.sizes).forEach(([sz, qty]) => {
+                                    sizesList.push(`${sz} (${qty})`);
+                                    totalStock += qty;
+                                });
+                            }
+                            if (v.waistSizes) {
+                                Object.entries(v.waistSizes).forEach(([sz, qty]) => {
+                                    sizesList.push(`Waist ${sz} (${qty})`);
+                                    totalStock += qty;
+                                });
+                            }
+                        });
+                    }
+                    const displaySizes = sizesList.length > 0 ? Array.from(new Set(sizesList)).join(', ') : 'None';
+
+                    const card = document.createElement('div');
+                    card.className = 'admin-item-card';
+                    card.innerHTML = `
+                        <div class="admin-item-img">
+                            <img src="${primaryVar.img}" alt="${item.name}">
+                            ${item.tag ? `<span class="admin-item-badge">${item.tag}</span>` : ''}
+                            <span class="admin-item-badge" style="background:#22c55e; top:auto; bottom:15px; left:15px;">Stock: ${totalStock}</span>
+                        </div>
+                        <div class="admin-item-body">
+                            <h4 class="admin-item-title">${item.name}</h4>
+                            <span class="admin-item-meta">${item.fabric} | Sizes: ${displaySizes}</span>
+                            <p class="admin-item-descr">${item.description}</p>
+                            <div class="admin-item-footer">
+                                <span class="admin-item-price">₹${displayPrice.toLocaleString()}</span>
+                                <div class="admin-item-actions">
+                                    <button class="admin-btn-icon delete" data-id="${item.id}"><i class="fa-solid fa-trash-can"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    list.appendChild(card);
+                });
+
+                // Delete arrival bindings
+                list.querySelectorAll('.delete').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = btn.getAttribute('data-id');
+                        const items = KA16_CMS.getNewArrivals().filter(x => x.id !== id);
+                        KA16_CMS.saveNewArrivals(items);
+                        showToast('<i class="fa-solid fa-trash-can"></i> Published item deleted.');
+                        renderArrivals();
+                    });
+                });
+            }
+
+            document.getElementById('form-new-arrival').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('arr-name').value;
+                const fabric = document.getElementById('arr-fabric').value;
+                const desc = document.getElementById('arr-desc').value;
+                const isNew = document.getElementById('arr-tag-new').checked;
+
+                const variants = [];
+                const variantBoxes = document.querySelectorAll('#arr-variants-container .variant-box');
+
+                variantBoxes.forEach(box => {
+                    const colorName = box.querySelector('.var-color-name').value;
+                    const colorHex = box.querySelector('.var-color-hex').value;
+                    const priceVal = box.querySelector('.var-price').value;
+                    const price = priceVal ? parseInt(priceVal) : 0;
+                    const img = box.querySelector('.var-img-base64').value || "img/arrivals_banner_1779290841203.png";
+
+                    const sizes = {};
+                    let totalStock = 0;
+                    box.querySelectorAll('.var-size-qty').forEach(input => {
+                        const sz = input.getAttribute('data-size');
+                        const qty = parseInt(input.value) || 0;
+                        if (qty > 0) {
+                            sizes[sz] = qty;
+                            totalStock += qty;
+                        }
+                    });
+
+                    const waistSizes = {};
+                    box.querySelectorAll('.var-waist-qty').forEach(input => {
+                        const sz = input.getAttribute('data-size');
+                        const qty = parseInt(input.value) || 0;
+                        if (qty > 0) {
+                            waistSizes[sz] = qty;
+                            totalStock += qty;
+                        }
+                    });
+
+                    variants.push({
+                        colorName,
+                        colorHex,
+                        stock: totalStock,
+                        price,
+                        img,
+                        sizes,
+                        waistSizes
+                    });
+                });
+
+                if (variants.length === 0) {
+                    alert('Please add at least one color variation!');
+                    return;
+                }
+
+                const newItem = {
+                    id: "arr_" + Date.now(),
+                    name,
+                    fabric,
+                    description: desc,
+                    tag: isNew ? "New" : "",
+                    published: true,
+                    variants,
+                    createdAt: Date.now()
+                };
+
+                const current = KA16_CMS.getNewArrivals();
+                current.unshift(newItem); // Latest first!
+                KA16_CMS.saveNewArrivals(current);
+
+                showToast('<i class="fa-solid fa-circle-check"></i> Published dynamic item successfully!');
+                document.getElementById('form-new-arrival').reset();
+
+                // Clear and reset variants to default single primary variant
+                container.innerHTML = '';
+                variantCount = 0;
+                addVariantRow();
+
+                renderArrivals();
+            });
+
+            // 2. VOUCHERS & BUNDLES CONTROLLERS
+            function renderOffers() {
+                const offers = KA16_CMS.getOffers();
+                const vList = document.getElementById('list-vouchers');
+                vList.innerHTML = '';
+
+                offers.vouchers.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'admin-item-card';
+                    card.innerHTML = `
+                        <div class="admin-item-body" style="justify-content: space-between;">
+                            <div>
+                                <h4 class="admin-item-title">${item.title}</h4>
+                                <span class="admin-item-meta" style="color:var(--accent); font-weight:700;">CODE: ${item.code}</span>
+                                <p class="admin-item-descr" style="margin-top:10px;">${item.descr}</p>
+                            </div>
+                            <div class="admin-item-footer">
+                                <span class="admin-item-price">${item.valueType === 'percent' ? `${item.value}% OFF` : `₹${item.value} OFF`}</span>
+                                <div class="admin-item-actions">
+                                    <button class="admin-btn-icon delete-vouch" data-id="${item.id}"><i class="fa-solid fa-trash-can"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    vList.appendChild(card);
+                });
+
+                const bList = document.getElementById('list-bundles');
+                bList.innerHTML = '';
+
+                offers.bundles.forEach(item => {
+                    const card = document.createElement('div');
+                    card.className = 'admin-item-card';
+                    card.innerHTML = `
+                        <div class="admin-item-img">
+                            <img src="${item.img}" alt="${item.name}">
+                            <span class="admin-item-badge">${item.badge}</span>
+                        </div>
+                        <div class="admin-item-body">
+                            <h4 class="admin-item-title">${item.name}</h4>
+                            <span class="admin-item-meta">Expiry: ${item.countdownDate ? new Date(item.countdownDate).toLocaleString() : 'None'}</span>
+                            <p class="admin-item-descr">${item.descr}</p>
+                            <div class="admin-item-footer">
+                                <span class="admin-item-price">₹${item.price.toLocaleString()}</span>
+                                <div class="admin-item-actions" style="align-items:center; gap:12px;">
+                                    <div class="switch-group">
+                                        <label class="switch">
+                                            <input type="checkbox" class="toggle-bundle" data-id="${item.id}" ${item.enabled ? 'checked' : ''}>
+                                            <span class="slider"></span>
+                                        </label>
+                                    </div>
+                                    <button class="admin-btn-icon delete-bund" data-id="${item.id}"><i class="fa-solid fa-trash-can"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    bList.appendChild(card);
+                });
+
+                // Voucher Delete
+                vList.querySelectorAll('.delete-vouch').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = btn.getAttribute('data-id');
+                        const data = KA16_CMS.getOffers();
+                        data.vouchers = data.vouchers.filter(x => x.id !== id);
+                        KA16_CMS.saveOffers(data);
+                        showToast('<i class="fa-solid fa-trash-can"></i> Voucher deleted.');
+                        renderOffers();
+                    });
+                });
+
+                // Bundle Delete
+                bList.querySelectorAll('.delete-bund').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = btn.getAttribute('data-id');
+                        const data = KA16_CMS.getOffers();
+                        data.bundles = data.bundles.filter(x => x.id !== id);
+                        KA16_CMS.saveOffers(data);
+                        showToast('<i class="fa-solid fa-trash-can"></i> Seasonal Bundle deleted.');
+                        renderOffers();
+                    });
+                });
+
+                // Bundle Active Toggle
+                bList.querySelectorAll('.toggle-bundle').forEach(chk => {
+                    chk.addEventListener('change', () => {
+                        const id = chk.getAttribute('data-id');
+                        const data = KA16_CMS.getOffers();
+                        const idx = data.bundles.findIndex(x => x.id === id);
+                        if (idx !== -1) {
+                            data.bundles[idx].enabled = chk.checked;
+                            KA16_CMS.saveOffers(data);
+                            showToast(`<i class="fa-solid fa-tag"></i> Bundle state set to ${chk.checked ? 'Active' : 'Disabled'}.`);
+                        }
+                    });
+                });
+            }
+
+            document.getElementById('form-voucher').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const code = document.getElementById('vouch-code').value.toUpperCase().replace(/\s+/g, '');
+                const title = document.getElementById('vouch-title').value;
+                const value = parseInt(document.getElementById('vouch-value').value);
+                const valueType = document.getElementById('vouch-type').value;
+                const descr = document.getElementById('vouch-desc').value;
+
+                const offers = KA16_CMS.getOffers();
+                offers.vouchers.push({
+                    id: "voucher_" + Date.now(),
+                    code,
+                    valueType,
+                    value,
+                    title,
+                    descr,
+                    enabled: true
+                });
+                KA16_CMS.saveOffers(offers);
+
+                showToast('<i class="fa-solid fa-circle-check"></i> Voucher published successfully!');
+                document.getElementById('form-voucher').reset();
+                renderOffers();
+            });
+
+            document.getElementById('form-bundle').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('bund-name').value;
+                const price = parseInt(document.getElementById('bund-price').value);
+                const badge = document.getElementById('bund-badge').value;
+                const descr = document.getElementById('bund-desc').value;
+                const countdownDate = document.getElementById('bund-countdown').value;
+                const img = document.getElementById('bund-img-base64').value || "img/cat_wedding_1779287445980.png";
+
+                const offers = KA16_CMS.getOffers();
+                offers.bundles.push({
+                    id: "off_" + Date.now(),
+                    name,
+                    price,
+                    descr,
+                    img,
+                    sizes: ["S", "M", "L", "XL"],
+                    badge,
+                    enabled: true,
+                    countdownDate
+                });
+                KA16_CMS.saveOffers(offers);
+
+                showToast('<i class="fa-solid fa-circle-check"></i> Seasonal bundle kit published!');
+                document.getElementById('form-bundle').reset();
+                document.getElementById('bund-preview-box').style.display = 'none';
+                document.getElementById('bund-img-base64').value = '';
+                renderOffers();
+            });
+
+            // 3. PRODUCTS CONTROLLERS
+            function renderProducts() {
+                const products = KA16_CMS.getProducts();
+                const list = document.getElementById('list-products');
+                list.innerHTML = '';
+
+                products.forEach(item => {
+                    let totalStock = 0;
+                    const sizesList = [];
+                    if (item.sizes) {
+                        Object.entries(item.sizes).forEach(([sz, qty]) => {
+                            sizesList.push(`${sz} (${qty})`);
+                            totalStock += qty;
+                        });
+                    }
+                    if (item.waistSizes) {
+                        Object.entries(item.waistSizes).forEach(([sz, qty]) => {
+                            sizesList.push(`Waist ${sz} (${qty})`);
+                            totalStock += qty;
+                        });
+                    }
+                    const displaySizes = sizesList.length > 0 ? sizesList.join(', ') : 'None';
+
+                    const card = document.createElement('div');
+                    card.className = 'admin-item-card';
+                    card.innerHTML = `
+                        <div class="admin-item-img">
+                            <img src="${item.img}" alt="${item.name}">
+                            <span class="admin-item-badge" style="background:#22c55e;">Stock: ${totalStock}</span>
+                        </div>
+                        <div class="admin-item-body">
+                            <h4 class="admin-item-title">${item.name}</h4>
+                            <span class="admin-item-meta">${item.fabric} | Sizes: ${displaySizes}</span>
+                            <p class="admin-item-descr">${item.description}</p>
+                            <div class="admin-item-footer">
+                                <span class="admin-item-price">₹${item.price.toLocaleString()}</span>
+                                <div class="admin-item-actions">
+                                    <button class="admin-btn-icon delete-prod" data-id="${item.id}"><i class="fa-solid fa-trash-can"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    list.appendChild(card);
+                });
+
+                list.querySelectorAll('.delete-prod').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const id = btn.getAttribute('data-id');
+                        const data = KA16_CMS.getProducts().filter(x => x.id !== id);
+                        KA16_CMS.saveProducts(data);
+                        showToast('<i class="fa-solid fa-trash-can"></i> Product item deleted.');
+                        renderProducts();
+                    });
+                });
+            }
+
+            document.getElementById('form-product').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('prod-name').value;
+                const fabric = document.getElementById('prod-fabric').value;
+                const price = parseInt(document.getElementById('prod-price').value);
+                const description = document.getElementById('prod-desc').value;
+                const img = document.getElementById('prod-img-base64').value || "img/cat_shirts_1779287336079.png";
+
+                const sizes = {};
+                let totalStock = 0;
+                document.querySelectorAll('.prod-size-qty').forEach(input => {
+                    const sz = input.getAttribute('data-size');
+                    const qty = parseInt(input.value) || 0;
+                    if (qty > 0) {
+                        sizes[sz] = qty;
+                        totalStock += qty;
+                    }
+                });
+
+                const waistSizes = {};
+                document.querySelectorAll('.prod-waist-qty').forEach(input => {
+                    const sz = input.getAttribute('data-size');
+                    const qty = parseInt(input.value) || 0;
+                    if (qty > 0) {
+                        waistSizes[sz] = qty;
+                        totalStock += qty;
+                    }
+                });
+
+                const products = KA16_CMS.getProducts();
+                products.push({
+                    id: "prod_" + Date.now(),
+                    name,
+                    price,
+                    fabric,
+                    sizes,
+                    waistSizes,
+                    description,
+                    img,
+                    enabled: true
+                });
+                KA16_CMS.saveProducts(products);
+
+                showToast('<i class="fa-solid fa-circle-check"></i> Dynamic product published!');
+                document.getElementById('form-product').reset();
+                document.querySelectorAll('.prod-size-qty, .prod-waist-qty').forEach(input => input.value = 0);
+                document.getElementById('prod-preview-box').style.display = 'none';
+                document.getElementById('prod-img-base64').value = '';
+                renderProducts();
+            });
+
+            // 4. GALLERY CONTROLLERS
+            function renderGallery() {
+                const slides = KA16_CMS.getGallery();
+                const list = document.getElementById('list-gallery');
+                list.innerHTML = '';
+
+                slides.forEach((item, idx) => {
+                    const card = document.createElement('div');
+                    card.className = 'admin-item-card';
+                    card.innerHTML = `
+                        <div class="admin-item-img" style="height:150px;">
+                            <img src="${item.img}" alt="${item.label}">
+                        </div>
+                        <div class="admin-item-body">
+                            <h4 class="admin-item-title">${item.label}</h4>
+                            <span class="admin-item-meta">Overlay: ${item.typo}</span>
+                            <p class="admin-item-descr">${item.desc}</p>
+                            <div class="admin-item-footer">
+                                <span class="admin-item-price" style="font-size:0.8rem; color:var(--accent);">Index: ${idx + 1}</span>
+                                <div class="admin-item-actions">
+                                    <button class="admin-btn-icon move-up" data-idx="${idx}"><i class="fa-solid fa-arrow-up"></i></button>
+                                    <button class="admin-btn-icon move-down" data-idx="${idx}"><i class="fa-solid fa-arrow-down"></i></button>
+                                    <button class="admin-btn-icon delete-slide" data-idx="${idx}"><i class="fa-solid fa-trash-can"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    list.appendChild(card);
+                });
+
+                // Arrange drag operations
+                list.querySelectorAll('.move-up').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const index = parseInt(btn.getAttribute('data-idx'));
+                        if (index > 0) {
+                            const data = KA16_CMS.getGallery();
+                            const temp = data[index];
+                            data[index] = data[index - 1];
+                            data[index - 1] = temp;
+                            KA16_CMS.saveGallery(data);
+                            renderGallery();
+                        }
+                    });
+                });
+
+                list.querySelectorAll('.move-down').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const index = parseInt(btn.getAttribute('data-idx'));
+                        const data = KA16_CMS.getGallery();
+                        if (index < data.length - 1) {
+                            const temp = data[index];
+                            data[index] = data[index + 1];
+                            data[index + 1] = temp;
+                            KA16_CMS.saveGallery(data);
+                            renderGallery();
+                        }
+                    });
+                });
+
+                list.querySelectorAll('.delete-slide').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const index = parseInt(btn.getAttribute('data-idx'));
+                        const data = KA16_CMS.getGallery().filter((_, i) => i !== index);
+                        KA16_CMS.saveGallery(data);
+                        showToast('<i class="fa-solid fa-trash-can"></i> 3D Runway slide deleted.');
+                        renderGallery();
+                    });
+                });
+            }
+
+            document.getElementById('form-gallery').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const label = document.getElementById('gal-label').value;
+                const typo = document.getElementById('gal-typo').value.toUpperCase();
+                const bg = document.getElementById('gal-bg').value;
+                const desc = document.getElementById('gal-desc').value;
+                const img = document.getElementById('gal-img-base64').value || "img/hero_model_1779287264386.png";
+
+                const slides = KA16_CMS.getGallery();
+                slides.push({
+                    img,
+                    typo,
+                    bg,
+                    label,
+                    desc
+                });
+                KA16_CMS.saveGallery(slides);
+
+                showToast('<i class="fa-solid fa-circle-check"></i> Published slide to 3D Runway!');
+                document.getElementById('form-gallery').reset();
+                document.getElementById('gal-preview-box').style.display = 'none';
+                document.getElementById('gal-img-base64').value = '';
+                renderGallery();
+            });
+
+            // Sign Out handler
+            const signOutBtn = document.getElementById('signout-btn');
+            if (signOutBtn) {
+                signOutBtn.addEventListener('click', async () => {
+                    try {
+                        await fetch('/api/auth/logout');
+                        showToast('<i class="fa-solid fa-right-from-bracket"></i> Signed out. Redirecting...');
+                        setTimeout(() => window.location.href = 'login.html', 1000);
+                    } catch (e) {
+                        window.location.href = 'login.html';
+                    }
+                });
+            }
+
+            // Initialise renders
+            renderArrivals();
+            renderOffers();
+            renderProducts();
+            renderGallery();
+        });
+    </script>
+</body>
+
+</html>
