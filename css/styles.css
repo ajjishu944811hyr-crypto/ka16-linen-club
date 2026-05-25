@@ -309,7 +309,7 @@ a {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: linear-gradient(rgba(13, 13, 13, 0.3), rgba(13, 13, 13, 0.85)), url('../img/storefront_bg_fixed_1779461258108.png') no-repeat center center / cover;
+    background: linear-gradient(rgba(13, 13, 13, 0.62), rgba(13, 13, 13, 0.88)), url('../img/storefront_bg_fixed_1779461258108.png') no-repeat center bottom / cover;
 }
 
 /* Container for Three.js scene background */
