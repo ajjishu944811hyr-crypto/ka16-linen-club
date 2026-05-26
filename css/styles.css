@@ -3287,47 +3287,92 @@ input:checked + .slider:before {
         line-height: 1.2 !important;
     }
     
-    /* Make product cards responsive in a sleek equal-height 2-column grid */
+    /* Sleek single-column product cards for small phones to prevent horizontal text compression */
     .collection-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important;
-        padding: 0 !important;
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        padding: 0 10px !important;
     }
     
     .collection-card {
         border-radius: 12px !important;
         display: flex !important;
         flex-direction: column !important;
-        height: 100% !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        background: #FFFFFF !important;
+        border: 1px solid rgba(26, 26, 26, 0.05) !important;
+        overflow: hidden !important;
     }
     
     .collection-img-box {
-        padding-bottom: 110% !important; /* Slightly more compact 11:10 aspect ratio */
+        padding-bottom: 60% !important; /* Horizontal landscape 5:3 ratio */
+        width: 100% !important;
+        position: relative !important;
     }
     
     .collection-info {
-        padding: 12px 8px !important;
+        padding: 16px 20px !important;
         display: flex !important;
         flex-direction: column !important;
-        flex-grow: 1 !important;
-        justify-content: space-between !important;
+        gap: 6px !important;
+        text-align: center !important;
+        align-items: center !important;
     }
     
     .collection-info h3 {
-        font-size: 0.8rem !important;
-        letter-spacing: 0.01em !important;
+        font-size: 0.95rem !important;
+        letter-spacing: 0.02em !important;
         line-height: 1.3 !important;
+        margin: 0 !important;
     }
     
     .collection-info p {
-        font-size: 0.72rem !important;
-        margin-top: 3px !important;
-        line-height: 1.3 !important;
+        font-size: 0.76rem !important;
+        margin-top: 2px !important;
+        color: var(--text-muted) !important;
+        line-height: 1.4 !important;
     }
     
     .collection-cta-text {
-        font-size: 0.68rem !important;
+        font-size: 0.72rem !important;
+        margin-top: 6px !important;
+        padding: 6px 14px !important;
+        border: 1px solid var(--accent) !important;
+        border-radius: 4px !important;
+        background: rgba(212, 175, 55, 0.02) !important;
+        display: inline-flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    /* Shrink the dynamic Add to Cart button and size selector properties for mobile viewport space optimization */
+    .collection-info .add-to-cart-btn {
+        padding: 8px !important;
+        font-size: 0.72rem !important;
+        margin-top: 10px !important;
+        height: auto !important;
+        width: 100% !important;
+    }
+
+    .collection-info .cart-item-price {
+        font-size: 1rem !important;
+        margin-top: 6px !important;
+    }
+
+    .size-tiles-container {
+        gap: 6px !important;
         margin-top: 8px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .size-tile-btn {
+        min-width: 32px !important;
+        height: 32px !important;
+        font-size: 0.72rem !important;
+        border-radius: 6px !important;
+        padding: 0 6px !important;
     }
     
     /* Showroom gallery card spacing overrides */

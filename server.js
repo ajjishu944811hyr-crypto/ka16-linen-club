@@ -41,6 +41,105 @@ mongoose.connect(process.env.MONGODB_URI, { family: 4 })
   })
   .catch(err => console.error('MongoDB connection error:', err));
 
+// Memory Fallback Seed Arrays for local testing when MongoDB Atlas is disconnected
+const MEMORY_PRODUCTS = [
+  {
+    id: "prod_shirts",
+    name: "Signature Linen Shirts",
+    price: 1899,
+    fabric: "Pure Organic Linen",
+    sizes: { S: 5, M: 2, L: 0, XL: 3 },
+    waistSizes: {},
+    description: "Pastel linen shirts tailored for everyday executive elegance. Natural flax high-density fibers.",
+    img: "img/cat_shirts_1779287336079.png",
+    enabled: true
+  },
+  {
+    id: "prod_fabrics",
+    name: "Royal Linen Fabric",
+    price: 1499,
+    fabric: "Tailor-Grade Natural Linen",
+    sizes: {},
+    waistSizes: {},
+    description: "Superfine linen suitings and shirting fabric materials by the meter. Exquisite textures for bespoke couture.",
+    img: "img/cat_wedding_1779287445980.png",
+    enabled: true
+  },
+  {
+    id: "prod_coords",
+    name: "Premium Leisure Coordinates",
+    price: 4599,
+    fabric: "Raw Textured Linen Blend",
+    sizes: { S: 4, M: 2, L: 0, XL: 1, XXL: 0, XXXL: 2 },
+    waistSizes: { "28": 2, "30": 3, "32": 0, "34": 4, "36": 0 },
+    description: "Casual high-drape coordinate sets containing classic Cuban collars and comfortable matching trousers.",
+    img: "img/cat_outfits_1779287514198.png",
+    enabled: true
+  }
+];
+
+const MEMORY_NEW_ARRIVALS = [
+  {
+    id: "arr_indigo_suit",
+    name: "Royal Navy Indigo Suit",
+    fabric: "Premium Italian Linen",
+    description: "3-piece formal tailored suit in organic navy blue linen. Breathable lining, structured premium shoulders.",
+    tag: "New",
+    published: true,
+    variants: [
+      {
+        colorName: "Navy Indigo",
+        colorHex: "#1b2a47",
+        price: 9499,
+        img: "img/arrivals_banner.jpg",
+        sizes: { S: 5, M: 2, L: 0, XL: 3, XXL: 0, XXXL: 1 },
+        waistSizes: { "30": 2, "32": 4, "34": 0, "36": 3 }
+      },
+      {
+        colorName: "Ash Grey",
+        colorHex: "#5c626b",
+        price: 9899,
+        img: "img/cat_shirts_1779287336079.png",
+        sizes: { M: 2, L: 3, XL: 0, XXL: 1, XXXL: 0 },
+        waistSizes: { "34": 2, "36": 0, "38": 4, "40": 0 }
+      }
+    ]
+  },
+  {
+    id: "arr_safari",
+    name: "Olive Safari Jacket",
+    fabric: "Premium Raw Linen",
+    description: "Utilitarian safari field jacket in signature structured linen weave.",
+    tag: "Signature",
+    published: true,
+    variants: [
+      {
+        colorName: "Olive Drab",
+        colorHex: "#5b6348",
+        price: 6899,
+        img: "img/hero_model_1779287264386.png",
+        sizes: { S: 2, M: 4, L: 1, XL: 0, XXL: 2 },
+        waistSizes: {}
+      }
+    ]
+  }
+];
+
+const MEMORY_OFFERS = {
+  vouchers: [
+    { id: "gold15", code: "KA16GOLD", discount: "15% OFF", minPurchase: "On orders above ₹5,000", desc: "Gold tier exclusive club privilege voucher code." },
+    { id: "festive20", code: "KA16FESTIVE", discount: "₹2,000 OFF", minPurchase: "On orders above ₹10,000", desc: "Limited seasonal celebratory discount voucher code." }
+  ],
+  bundles: [
+    { id: "bundle_wedding", name: "Imperial Wedding Styling Set", price: 14999, description: "Bespoke customized wedding bundle: full blazer length fabric, two coordinated premium shirting materials, and luxury styling accessories.", img: "img/cat_wedding_1779287445980.png", enabled: true }
+  ]
+};
+
+const MEMORY_GALLERY = [
+  { orderIndex: 0, label: "Milano Spring Runway '26 Showcase", img: "img/runway_showcase_1779291914345.png" },
+  { orderIndex: 1, label: "Classic Navy Couture Suitings", img: "img/cat_wedding_1779287445980.png" }
+];
+
 // ==============================================================================
 // JWT SECURITY AUTH GUARD
 // ==============================================================================
@@ -121,10 +220,13 @@ app.post('/api/upload', requireAuth, async (req, res) => {
 // ==============================================================================
 app.get('/api/products', async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.json(MEMORY_PRODUCTS);
+    }
     const products = await Product.find().sort({ createdAt: -1 });
     res.json(products);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.json(MEMORY_PRODUCTS);
   }
 });
 
@@ -165,10 +267,13 @@ app.delete('/api/products/:id', requireAuth, async (req, res) => {
 // ==============================================================================
 app.get('/api/new-arrivals', async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.json(MEMORY_NEW_ARRIVALS);
+    }
     const arrivals = await NewArrival.find().sort({ createdAt: 1 });
     res.json(arrivals);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.json(MEMORY_NEW_ARRIVALS);
   }
 });
 
@@ -209,6 +314,9 @@ app.delete('/api/new-arrivals/:id', requireAuth, async (req, res) => {
 // ==============================================================================
 app.get('/api/offers', async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.json(MEMORY_OFFERS);
+    }
     let offers = await Offer.findOne({ key: 'global_offers' });
     if (!offers) {
       offers = new Offer({ vouchers: [], bundles: [] });
@@ -216,7 +324,7 @@ app.get('/api/offers', async (req, res) => {
     }
     res.json(offers);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.json(MEMORY_OFFERS);
   }
 });
 
@@ -284,10 +392,13 @@ app.put('/api/offers/bundles/:id/toggle', requireAuth, async (req, res) => {
 // ==============================================================================
 app.get('/api/gallery', async (req, res) => {
   try {
+    if (mongoose.connection.readyState !== 1) {
+      return res.json(MEMORY_GALLERY);
+    }
     const slides = await Gallery.find().sort({ orderIndex: 1 });
     res.json(slides);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.json(MEMORY_GALLERY);
   }
 });
 
