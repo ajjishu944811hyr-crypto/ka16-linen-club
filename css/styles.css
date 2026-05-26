@@ -3247,42 +3247,44 @@ input:checked + .slider:before {
         align-items: center !important;
     }
     
-    /* Stack floating features to a clean 1-column layout */
+    /* Stack floating features in a clean 2x2 grid */
     .hero-features {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: 10px !important;
         margin-top: 30px !important;
         padding: 0 !important;
     }
     
     .hero-feature-card {
-        padding: 12px 15px !important;
-        text-align: left !important;
+        padding: 10px 12px !important;
+        text-align: center !important;
         display: flex !important;
-        flex-direction: row !important;
+        flex-direction: column !important;
         align-items: center !important;
-        gap: 12px !important;
+        justify-content: center !important;
+        gap: 6px !important;
         background: rgba(255, 255, 255, 0.02) !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
         border-radius: 12px !important;
     }
     
     .hero-feature-card i {
-        font-size: 1.3rem !important;
-        margin-bottom: 0 !important;
+        font-size: 1.2rem !important;
+        margin-bottom: 2px !important;
         color: var(--accent) !important;
     }
     
     .hero-feature-card h4 {
-        font-size: 0.88rem !important;
+        font-size: 0.8rem !important;
         margin-bottom: 2px !important;
         font-family: var(--font-sans) !important;
         font-weight: 600 !important;
     }
     
     .hero-feature-card p {
-        font-size: 0.72rem !important;
+        font-size: 0.65rem !important;
         color: var(--text-muted) !important;
+        line-height: 1.2 !important;
     }
     
     /* Make product cards responsive in a sleek equal-height 2-column grid */

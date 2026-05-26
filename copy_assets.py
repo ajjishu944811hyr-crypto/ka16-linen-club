@@ -20,7 +20,7 @@ for file_path in png_files:
     print(f"Copied: {filename}")
 
 # Copy the real storefront background image
-storefront_src = "/home/ajay/.gemini/antigravity/brain/3a34799c-a32c-4468-aa0c-c0974659fd41/.tempmediaStorage/media_3a34799c-a32c-4468-aa0c-c0974659fd41_1779535160040.jpg"
+storefront_src = "/home/ajay/.gemini/antigravity/brain/db9f6e85-596a-4cfb-9024-131aaed4e29b/media__1779808479633.jpg"
 storefront_dest = os.path.join(dest_dir, "storefront.jpg")
 if os.path.exists(storefront_src):
     shutil.copy(storefront_src, storefront_dest)
