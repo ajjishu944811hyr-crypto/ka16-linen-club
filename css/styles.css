@@ -309,7 +309,7 @@ a {
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: linear-gradient(rgba(13, 13, 13, 0.62), rgba(13, 13, 13, 0.88)), url('../img/storefront_bg_fixed_1779461258108.png') no-repeat center bottom / cover;
+    background: linear-gradient(rgba(13, 13, 13, 0.62), rgba(13, 13, 13, 0.88)), url('../img/storefront.jpg') no-repeat center center / cover;
 }
 
 /* Container for Three.js scene background */
@@ -3095,6 +3095,213 @@ input:checked + .slider:before {
     border-color: var(--accent);
     transform: translateY(-4px) scale(1.08);
     box-shadow: 0 10px 25px rgba(200, 169, 107, 0.25);
+}
+
+/* ==========================================================================
+   18. FINAL ULTIMATE MOBILE RESPONSIVENESS OVERRIDES
+   ========================================================================== */
+
+/* Enforce high stacking and scroll safety for mobile navigation drawer */
+@media (max-width: 768px) {
+    .nav-links {
+        z-index: 1001 !important;
+        max-height: calc(100vh - 80px) !important;
+        overflow-y: auto !important;
+    }
+    
+    /* Hero Title Adjustments */
+    .hero-title {
+        font-size: clamp(2rem, 8vw, 3rem) !important;
+        line-height: 1.2 !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem !important;
+        margin-bottom: 30px !important;
+        padding: 0 10px;
+    }
+    
+    /* Stack feature cards neatly in 2 columns */
+    .hero-features {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+        margin-top: 40px !important;
+    }
+    
+    /* Shrink section padding for tablets */
+    .showroom-section, .about-section, .collection-section, .contact-section {
+        padding: 60px 0 !important;
+    }
+}
+
+/* Comprehensive rules specifically for Mobile/Android Phones (<480px) */
+@media (max-width: 480px) {
+    /* Header layout optimization */
+    .main-header {
+        padding: 15px 20px !important;
+    }
+    .main-header.scrolled {
+        padding: 12px 20px !important;
+    }
+    
+    /* Scale down logo size */
+    .logo-title {
+        font-size: 1.5rem !important;
+    }
+    .logo-sub {
+        font-size: 0.55rem !important;
+        letter-spacing: 0.2em !important;
+    }
+    
+    /* Hero section alignments & padding */
+    .hero-section {
+        padding-top: 100px !important;
+        padding-bottom: 60px !important;
+        min-height: auto !important;
+        height: auto !important;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem !important;
+        margin-bottom: 25px !important;
+    }
+    
+    /* Stack Hero CTA Buttons vertically to completely eliminate overlaps */
+    .hero-ctas {
+        flex-direction: column !important;
+        width: 100% !important;
+        gap: 12px !important;
+        padding: 0 20px !important;
+    }
+    
+    .hero-ctas .btn-primary,
+    .hero-ctas .btn-secondary {
+        width: 100% !important;
+        text-align: center !important;
+        padding: 15px 30px !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    
+    /* Stack floating features to a clean 1-column layout */
+    .hero-features {
+        grid-template-columns: 1fr !important;
+        gap: 12px !important;
+        margin-top: 35px !important;
+        padding: 0 10px !important;
+    }
+    
+    .hero-feature-card {
+        padding: 15px 20px !important;
+        text-align: left !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        gap: 15px !important;
+    }
+    
+    .hero-feature-card i {
+        font-size: 1.5rem !important;
+        margin-bottom: 0 !important;
+    }
+    
+    .hero-feature-card h3 {
+        font-size: 0.95rem !important;
+        margin-bottom: 2px !important;
+    }
+    
+    .hero-feature-card p {
+        font-size: 0.75rem !important;
+    }
+    
+    /* Make product cards responsive in a sleek 2-column grid for Zara-style scrolling */
+    .collection-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 15px !important;
+        padding: 0 10px !important;
+    }
+    
+    .collection-info {
+        padding: 15px 10px !important;
+    }
+    
+    .collection-info h3 {
+        font-size: 0.85rem !important;
+        letter-spacing: 0.02em !important;
+    }
+    
+    .collection-info p {
+        font-size: 0.75rem !important;
+        margin-top: 3px !important;
+    }
+    
+    .collection-cta-text {
+        font-size: 0.7rem !important;
+        margin-top: 10px !important;
+    }
+    
+    /* Showroom gallery card spacing overrides */
+    .showroom-section {
+        padding: 40px 15px !important;
+    }
+    
+    .showroom-header h2 {
+        font-size: 1.8rem !important;
+    }
+    
+    .showroom-card-overlay {
+        padding: 20px !important;
+    }
+    
+    .showroom-card-overlay h3 {
+        font-size: 1.1rem !important;
+    }
+    
+    .showroom-card-overlay p {
+        font-size: 0.8rem !important;
+    }
+    
+    /* Coupon/Voucher overrides */
+    .coupons-grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+        padding: 0 10px !important;
+    }
+    
+    .coupon-card {
+        padding: 25px 20px !important;
+    }
+    
+    .coupon-value {
+        font-size: 2.2rem !important;
+    }
+    
+    .coupon-title {
+        font-size: 1rem !important;
+        margin-bottom: 10px !important;
+    }
+    
+    .coupon-descr {
+        font-size: 0.78rem !important;
+        margin-bottom: 15px !important;
+    }
+    
+    /* Footers */
+    .footer-top {
+        grid-template-columns: 1fr !important;
+        gap: 30px !important;
+        padding: 40px 20px !important;
+    }
+    
+    .footer-bottom {
+        padding: 25px 20px !important;
+    }
 }
 
 
