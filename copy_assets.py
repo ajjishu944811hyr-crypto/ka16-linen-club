@@ -34,7 +34,7 @@ if os.path.exists(new_arrivals_src):
     print("Copied real newly uploaded new arrivals banner photo successfully.")
 
 # Copy the newly uploaded Offers background banner image
-offers_src = "/home/ajay/.gemini/antigravity/brain/ef647075-80c2-4d2f-bca4-6c951d6f7ec1/media__1779718678371.jpg"
+offers_src = "/home/ajay/.gemini/antigravity/brain/db9f6e85-596a-4cfb-9024-131aaed4e29b/media__1779810390948.jpg"
 offers_dest = os.path.join(dest_dir, "offers_banner.jpg")
 if os.path.exists(offers_src):
     shutil.copy(offers_src, offers_dest)
