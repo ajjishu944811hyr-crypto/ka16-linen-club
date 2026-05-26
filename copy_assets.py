@@ -27,7 +27,7 @@ if os.path.exists(storefront_src):
     print("Copied real storefront background photo successfully.")
 
 # Copy the newly uploaded New Arrivals beige linen model background image
-new_arrivals_src = "/home/ajay/.gemini/antigravity/brain/ef647075-80c2-4d2f-bca4-6c951d6f7ec1/media__1779718312791.jpg"
+new_arrivals_src = "/home/ajay/.gemini/antigravity/brain/db9f6e85-596a-4cfb-9024-131aaed4e29b/media__1779810096596.jpg"
 new_arrivals_dest = os.path.join(dest_dir, "arrivals_banner.jpg")
 if os.path.exists(new_arrivals_src):
     shutil.copy(new_arrivals_src, new_arrivals_dest)
