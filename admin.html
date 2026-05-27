@@ -774,7 +774,7 @@
                 });
             }
 
-            document.getElementById('form-new-arrival').addEventListener('submit', (e) => {
+            document.getElementById('form-new-arrival').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const name = document.getElementById('arr-name').value;
                 const fabric = document.getElementById('arr-fabric').value;
@@ -841,7 +841,7 @@
 
                 const current = KA16_CMS.getNewArrivals();
                 current.unshift(newItem); // Latest first!
-                KA16_CMS.saveNewArrivals(current);
+                await KA16_CMS.saveNewArrivals(current);
 
                 showToast('<i class="fa-solid fa-circle-check"></i> Published dynamic item successfully!');
                 document.getElementById('form-new-arrival').reset();
@@ -952,7 +952,7 @@
                 });
             }
 
-            document.getElementById('form-voucher').addEventListener('submit', (e) => {
+            document.getElementById('form-voucher').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const code = document.getElementById('vouch-code').value.toUpperCase().replace(/\s+/g, '');
                 const title = document.getElementById('vouch-title').value;
@@ -970,14 +970,14 @@
                     descr,
                     enabled: true
                 });
-                KA16_CMS.saveOffers(offers);
+                await KA16_CMS.saveOffers(offers);
 
                 showToast('<i class="fa-solid fa-circle-check"></i> Voucher published successfully!');
                 document.getElementById('form-voucher').reset();
                 renderOffers();
             });
 
-            document.getElementById('form-bundle').addEventListener('submit', (e) => {
+            document.getElementById('form-bundle').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const name = document.getElementById('bund-name').value;
                 const price = parseInt(document.getElementById('bund-price').value);
@@ -998,7 +998,7 @@
                     enabled: true,
                     countdownDate
                 });
-                KA16_CMS.saveOffers(offers);
+                await KA16_CMS.saveOffers(offers);
 
                 showToast('<i class="fa-solid fa-circle-check"></i> Seasonal bundle kit published!');
                 document.getElementById('form-bundle').reset();
@@ -1063,7 +1063,7 @@
                 });
             }
 
-            document.getElementById('form-product').addEventListener('submit', (e) => {
+            document.getElementById('form-product').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const name = document.getElementById('prod-name').value;
                 const fabric = document.getElementById('prod-fabric').value;
@@ -1104,7 +1104,7 @@
                     img,
                     enabled: true
                 });
-                KA16_CMS.saveProducts(products);
+                await KA16_CMS.saveProducts(products);
 
                 showToast('<i class="fa-solid fa-circle-check"></i> Dynamic product published!');
                 document.getElementById('form-product').reset();
@@ -1184,7 +1184,7 @@
                 });
             }
 
-            document.getElementById('form-gallery').addEventListener('submit', (e) => {
+            document.getElementById('form-gallery').addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const label = document.getElementById('gal-label').value;
                 const typo = document.getElementById('gal-typo').value.toUpperCase();
@@ -1200,7 +1200,7 @@
                     label,
                     desc
                 });
-                KA16_CMS.saveGallery(slides);
+                await KA16_CMS.saveGallery(slides);
 
                 showToast('<i class="fa-solid fa-circle-check"></i> Published slide to 3D Runway!');
                 document.getElementById('form-gallery').reset();

@@ -57,13 +57,15 @@
 
         // 1. PRODUCTS LAYER
         getProducts: function() {
-            return products;
+            return [...products];
         },
         saveProducts: async function(updatedList) {
             // Find difference to detect Add, Delete, or Edit
-            if (updatedList.length > products.length) {
-                // Add item (latest is unshifted first)
-                const addedItem = updatedList[0];
+            const cacheIds = products.map(x => x.id);
+            const addedItem = updatedList.find(x => !cacheIds.includes(x.id));
+
+            if (addedItem) {
+                // Add item
                 addedItem.img = await uploadToCloudinary(addedItem.img);
                 try {
                     await fetch('/api/products', {
@@ -98,17 +100,20 @@
                     }
                 }
             }
-            products = updatedList;
+            await this.loadFromCloud();
         },
 
         // 2. NEW ARRIVALS LAYER (Campaign coordinates)
         getNewArrivals: function() {
-            return newArrivals;
+            return [...newArrivals];
         },
         saveNewArrivals: async function(updatedList) {
-            if (updatedList.length > newArrivals.length) {
+            const cacheIds = newArrivals.map(x => x.id);
+            const addedItem = updatedList.find(x => !cacheIds.includes(x.id));
+
+            if (addedItem) {
                 // Add item
-                const addedItem = updatedList[0];
+                addedItem.img = await uploadToCloudinary(addedItem.img);
                 // Loop through variants to convert base64 images to Cloudinary
                 if (addedItem.variants) {
                     for (let v of addedItem.variants) {
@@ -152,22 +157,26 @@
                     }
                 }
             }
-            newArrivals = updatedList;
+            await this.loadFromCloud();
         },
 
         // 3. OFFERS LAYER
         getOffers: function() {
-            return offers;
+            return {
+                vouchers: [...(offers.vouchers || [])],
+                bundles: [...(offers.bundles || [])]
+            };
         },
         saveOffers: async function(updatedOffers) {
-            // Compare vouchers count
-            if (updatedOffers.vouchers.length > offers.vouchers.length) {
-                const added = updatedOffers.vouchers[updatedOffers.vouchers.length - 1];
+            // Compare vouchers
+            const cacheVoucherIds = offers.vouchers.map(x => x.id);
+            const addedVoucher = updatedOffers.vouchers.find(x => !cacheVoucherIds.includes(x.id));
+            if (addedVoucher) {
                 try {
                     await fetch('/api/offers/vouchers', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(added)
+                        body: JSON.stringify(addedVoucher)
                     });
                 } catch (e) { console.error("CMS Voucher Add Failed:", e); }
             } else if (updatedOffers.vouchers.length < offers.vouchers.length) {
@@ -180,15 +189,16 @@
                 }
             }
 
-            // Compare bundles count
-            if (updatedOffers.bundles.length > offers.bundles.length) {
-                const added = updatedOffers.bundles[updatedOffers.bundles.length - 1];
-                added.img = await uploadToCloudinary(added.img);
+            // Compare bundles
+            const cacheBundleIds = offers.bundles.map(x => x.id);
+            const addedBundle = updatedOffers.bundles.find(x => !cacheBundleIds.includes(x.id));
+            if (addedBundle) {
+                addedBundle.img = await uploadToCloudinary(addedBundle.img);
                 try {
                     await fetch('/api/offers/bundles', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(added)
+                        body: JSON.stringify(addedBundle)
                     });
                 } catch (e) { console.error("CMS Bundle Add Failed:", e); }
             } else if (updatedOffers.bundles.length < offers.bundles.length) {
@@ -215,23 +225,25 @@
                     }
                 }
             }
-            offers = updatedOffers;
+            await this.loadFromCloud();
         },
 
         // 4. RUNWAY GALLERY LAYER
         getGallery: function() {
-            return gallery;
+            return [...gallery];
         },
         saveGallery: async function(updatedSlides) {
-            if (updatedSlides.length > gallery.length) {
-                // Add item
-                const added = updatedSlides[updatedSlides.length - 1];
-                added.img = await uploadToCloudinary(added.img);
+            // Find added slide by label comparison
+            const cacheLabels = gallery.map(x => x.label);
+            const addedSlide = updatedSlides.find(x => !cacheLabels.includes(x.label));
+
+            if (addedSlide) {
+                addedSlide.img = await uploadToCloudinary(addedSlide.img);
                 try {
                     await fetch('/api/gallery', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(added)
+                        body: JSON.stringify(addedSlide)
                     });
                 } catch (e) { console.error("CMS Slide Add Failed:", e); }
             } else if (updatedSlides.length < gallery.length) {
@@ -256,7 +268,7 @@
                     } catch (e) { console.error("CMS Gallery Reorder Failed:", e); }
                 }
             }
-            gallery = updatedSlides;
+            await this.loadFromCloud();
         },
 
         // Reset database collections back to defaults
